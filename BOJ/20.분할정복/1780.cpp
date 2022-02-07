@@ -19,7 +19,8 @@
 
 // 풀이
 // N*N개의 입력을 받아 2차원 배열에 채운다.
-// x ~ x + n , y ~ y + n으로 구간을 나누어 0, 1, -1 로만 채워져 있는지 검사한다.
+// 왼쪽 상단이 (0, 0)이라고 가정한후, N을 3으로 나누어서
+// 9개의 구간을 만들고 각각 검사를 진행한다.
 #include <iostream>
 
 
@@ -39,6 +40,7 @@ void check_paper(int x, int y, int n)
 	number = paper[y][x];
 	flag = 0;
 
+	// 구간에 들어있는 숫자가 모두 같은지 검사
 	for (int i = y ; i < y + n ; i++)
 	{
 		for (int j = x ; j < x + n ; j++)
@@ -51,17 +53,11 @@ void check_paper(int x, int y, int n)
 	}
 	if (flag) // -1, 0, 1로만 채워지지 않은 경우
 	{
-		check_paper(x, y, n / 3);
-		check_paper(x + n / 3, y, n / 3);
-		check_paper(x + n / 3 * 2, y, n / 3);
-		check_paper(x, y + n / 3, n / 3);
-		check_paper(x + n / 3, y + n / 3, n / 3);
-		check_paper(x + n / 3 * 2, y + n / 3, n / 3);
-		check_paper(x, y + n / 3 * 2, n / 3);
-		check_paper(x + n / 3, y + n / 3 * 2, n / 3);
-		check_paper(x + n / 3 * 2, y + n / 3 * 2, n / 3);
+		for (int a = 0 ; a < n ; a += n / 3)
+			for (int b = 0 ; b < n ; b += n / 3)
+				check_paper(x + b, y + a, n / 3);
 	}
-	else
+	else // -1, 0, 1로만 채워진 경우
 	{
 		if (number == -1)
 			minus_one++;
@@ -91,4 +87,9 @@ int main(void)
 
 	// output
 	cout << minus_one << "\n" << ::zero << "\n" << plus_one << "\n";
+
+	// memory free
+	for (int i = 0 ; i < n ; i++)
+		delete [] paper[i];
+	delete [] paper;
 }
