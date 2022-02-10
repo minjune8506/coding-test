@@ -36,56 +36,41 @@
  * 4!
  * (4 - 2)! -> 12
  */
+
 #include <iostream>
-#include <algorithm>
+#include <vector>
 #include <set>
 
 using namespace std;
 
-int n;
-int k;
+int n,k;
+vector<string> card;
+set<string> cardSet;
 
-int permutation(int *cards)
-{
-	int num = n;
-	int ret = 1;
+void solve()
+ {
+	string temp;
 
-	for (int i = 0 ; i < k ; i++)
+	for (int i = 0 ; i < n ; i++)
 	{
-		ret *= num;
-		num--;	
+		temp.clear();
+		temp.append(card[i]);
+		for (int j = i + 1 ; j < i + k ; j++) // k - 1개 선택 
+			temp.append(card[j]);
+		cout << "temp : " << temp << "\n";
+		cardSet.insert(temp);
 	}
-	return (ret);
-}
+ }
 
-void solve(int *cards, int *ary)
+int main()
 {
-	set<int> s;
-	int num;
-	
-	//..?
-}
-
-int main(void)
-{
-	int *cards;
-	int *ary;
-	int per;
-
-	// input
-	cin >> n >> k;
-	cards = new int[n];
-	for (int i = 0 ; i < n ; i++)
-		cin >> cards[i];
-
-	per = permutation(cards);
-	
-	ary = new int[per];
-	solve(cards, ary);
-	cout << "permutation : " << per << "\n";
-
-	// check input
-	for (int i = 0 ; i < n ; i++)
-		cout << cards[i] << " ";
-	cout << "\n";
+    cin >> n >> k;
+    for (int i = 0; i < n; i++)
+	{
+        string s;
+        cin >> s;
+        card.push_back(s);
+    }
+	solve();
+    cout << cardSet.size() << '\n';
 }
