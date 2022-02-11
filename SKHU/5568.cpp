@@ -22,55 +22,69 @@
  * 만들 수 있는 정수의 개수
 */
 
-/*
- * 풀이
- * kCn x
- * 중복인 숫자는 어떻게 처리해야 할지?
+/**
+ * 재귀를 이용한 완전탐색 알고리즘
+ * 순서가 상관이 있는 경우에 해당된다.
  * 
- * ex) 1 2 12 1
- * 4 C 2 ->
- * 4!
- * 2! * (4 - 2)! => 6
- * 
- * 4 P 2 ->
- * 4!
- * (4 - 2)! -> 12
+ * selectCount = 0으로 시작하며 하나씩 카드를 고를때마다 1씩 증가시켜 재귀로 반복한다.
+ * 고른 카드를 문자열에 이어 붙혀서 다음 재귀 함수로 넘긴다.
+ * selectCount 가 k 일경우 set에 문자열을 추가 후 재귀를 탈출하게 된다.
+ * 반복되는 문자의 경우 set이므로 중복이 제거된다.
+ * 마지막에 visiteed[i] = false를 해주는 이유는 2번째 카드를 선택했을때
+ * 첫번째 카드를 다시 선택할 수 있기 때문이다.
  */
 
 #include <iostream>
 #include <vector>
 #include <set>
+#include <string>
 
 using namespace std;
 
 int n,k;
-vector<string> card;
 set<string> cardSet;
+bool visited[10];
 
-void solve()
- {
-	string temp;
-
-	for (int i = 0 ; i < n ; i++)
+void brute_force(vector<string> card, int selectCount, string temp)
+{
+	if (selectCount == k)
 	{
-		temp.clear();
-		temp.append(card[i]);
-		for (int j = i + 1 ; j < i + k ; j++) // k - 1개 선택 
-			temp.append(card[j]);
-		cout << "temp : " << temp << "\n";
 		cardSet.insert(temp);
+		return ;
 	}
- }
+	for (int i = 0 ; i < card.size() ; i++)
+	{
+		if (visited[i] == false)
+		{
+			visited[i] = true;
+			brute_force(card, selectCount + 1, temp + card[i]);
+			visited[i] = false;
+		}
+	}
+}
 
 int main()
 {
+	vector<string> card;
+	string temp;
+
+	// input
     cin >> n >> k;
     for (int i = 0; i < n; i++)
 	{
-        string s;
-        cin >> s;
-        card.push_back(s);
-    }
-	solve();
-    cout << cardSet.size() << '\n';
+		cin >> temp;
+		card.push_back(temp);
+	}
+	
+	// 완전 탐색
+	brute_force(card, 0, "");
+
+	// cardSet 내용 출력
+	// set<string>::iterator iter;
+	// for (iter = cardSet.begin() ; iter != cardSet.end() ; iter++)
+		// cout << *iter << " ";
+	// cout << "\n";
+	
+	// output
+    cout << cardSet.size() << "\n";
 }
