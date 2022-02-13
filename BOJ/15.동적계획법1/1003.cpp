@@ -35,8 +35,7 @@
  * fib(1) -> f(1) : 0 1
  * fib(2) -> fib(1) + fib(0) : 1 1 
  * fib(3) -> fib(2) + fib(1) -> fib(1) + fib(0) + fib(1) : 1 2
- * fib(4) -> fib(3) + fib(2) -> fib(2) + fib(1) + fib(1) + fib(0)
- * -> fib(1) + fib(0) + fib(1) + fib(1) + fib(0) : 2 3
+ * fib(4) -> fib(3) + fib(2) -> fib(2) + fib(1) + fib(1) + fib(0) -> fib(1) + fib(0) + fib(1) + fib(1) + fib(0) : 2 3
  * 
  * DP를 사용해 결과를 저장한다.
  * fib (0) : 1 0 -> 0
