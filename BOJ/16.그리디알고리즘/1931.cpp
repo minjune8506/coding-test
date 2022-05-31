@@ -15,6 +15,7 @@
  * 출력
  * 최대 사용할 수 있는 회의의 최대 개수를 출력한다.
  */
+
 /**
  * 풀이
  * 회의 시간을 입력을 받아서 끝나는 시간을 기준으로 정렬을 수행한다.
@@ -36,39 +37,33 @@ using namespace std;
 
 int N;
 
-typedef struct meeting
+bool cmp(pair<int, int> a, pair<int ,int> b)
 {
-	int start;
-	int end;
-} meeting;
-
-bool compare(meeting a, meeting b)
-{
-	if (a.end == b.end)
-		return a.start < b.start;
-	return a.end < b.end;
+	if (a.second == b.second) {
+		return a.first < b.first;
+	}
+	return a.second < b.second;
 }
 
 int main(void)
 {
-	vector<meeting> meet;
+	vector<pair<int, int> > meet;
 	int count = 0;
-	int curr_end = -1;
+	int curr_end = 0;
 	
 	cin >> N;
 	for (int i = 0 ; i < N ; i++)
 	{
-		meeting m;
-
-		cin >> m.start >> m.end;
-		meet.push_back(m);
+		int start, end;
+		cin >> start >> end;
+		meet.push_back(make_pair(start, end));
 	}
-	sort(meet.begin(), meet.end(), compare);
+	sort(meet.begin(), meet.end(), cmp);
 	for (int i = 0 ; i < meet.size() ; i++)
 	{
-		if (curr_end == -1 || meet[i].start >= curr_end)
+		if (meet[i].first >= curr_end)
 		{
-			curr_end = meet[i].end;
+			curr_end = meet[i].second;
 			count++;
 		}
 	}
