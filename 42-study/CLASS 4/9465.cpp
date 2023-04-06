@@ -23,12 +23,12 @@ void solve() {
 		}
 	}
 
-	int max = -1;
 	int dp[2][N + 1];
 	std::memset(dp, 0, sizeof(int) * 2 * (N + 1));
 	
 	dp[0][1] = ary[0][1];
 	dp[1][1] = ary[1][1];
+	int max = std::max(dp[0][1], dp[1][1]);
 
 	for (int i = 2; i <= N; i++) {
 		dp[0][i] = ary[0][i] + std::max(dp[1][i - 1], dp[1][i - 2]);
